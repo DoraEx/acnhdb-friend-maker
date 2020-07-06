@@ -110,7 +110,7 @@ def run(sheet):
 
 if __name__ == "__main__":
     workbook = xlrd.open_workbook('data.xlsx')
-    sheet = workbook.sheet_by_name("Housewares")
+    sheet = workbook.sheet_by_name("Villagers")
     run(sheet)
     
 

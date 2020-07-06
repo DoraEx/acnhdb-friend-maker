@@ -14,7 +14,9 @@ def convert_values(value):
         return str(int(value))
 
 def convert_themes(value):
-        return value.split('; ')
+    values = value.split(';')
+    values = [v.strip() for v in values]
+    return values
 
 def convert_rows(rows, properties):
     converted_rows = []
