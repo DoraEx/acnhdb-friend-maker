@@ -1,11 +1,21 @@
-import populate_furniture as pf
-import populate_clothing as pc
-
 import xlrd
+import extract_sheet as es
+from pymongo import MongoClient
+
+client = MongoClient()
+db = client.acnhdb
+
 def run():
     workbook = xlrd.open_workbook('data.xlsx')
-    # pf.start(workbook)
-    pc.start(workbook)
+
+    for sheet in workbook.sheets():
+        #1. extract the list of documents
+        documents = es.run(sheet)
+        #2. add to collection based on category name
+        if len(documents) == 0:
+            continue
+        collection = db[documents[0]['category']]
+        collection.insert_many(documents)
     
 if __name__ == '__main__':
     run()
