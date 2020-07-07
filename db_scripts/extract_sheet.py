@@ -3,6 +3,17 @@ import xlrd
 
 import converters as converters
 
+variant_properties = [
+    'variation',
+    'body_title',
+    'pattern',
+    'pattern_title',
+    'color_1',
+    'color_2',
+    'filename',
+    'variant_id',
+    'unique_id',
+]
 def get_column_names(sheet):
     col_names = []
     for col_idx in range(0, sheet.ncols):
@@ -47,12 +58,15 @@ def create_documents(groups, properties):
     variant_properties = []
     group_properties = []
     for prop in properties:
-        values = [row[prop] for row in sample_rows]
-        has_diff= [True for value in values[1:] if value != values[0]]
-        if len(has_diff) == 0:
-            group_properties.append(prop)
-        else:
+        if prop in variant_properties:
             variant_properties.append(prop)
+        else:
+            values = [row[prop] for row in sample_rows]
+            has_diff= [True for value in values[1:] if value != values[0]]
+            if len(has_diff) == 0:
+                group_properties.append(prop)
+            else:
+                variant_properties.append(prop)
 
     for key in groups:
         rows = groups[key]

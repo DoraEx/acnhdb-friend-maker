@@ -9,14 +9,16 @@ def run():
     workbook = xlrd.open_workbook('data.xlsx')
 
     for sheet in workbook.sheets():
+        print(sheet.name)
         # sheet = workbook.sheet_by_name('Villagers')
         #1. extract the list of documents
         documents = es.run(sheet)
         #2. add to collection based on category name
         if len(documents) == 0:
             continue
-    collection = db[documents[0]['category']]
-    collection.insert_many(documents)
+        
+        collection = db[documents[0]['category']]
+        collection.insert_many(documents)
     
 if __name__ == '__main__':
     run()
