@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
-    // search by name, category, color
+    // search by name, category color
     res.json(['you searched for ' + req.query.name]);
 });
 
