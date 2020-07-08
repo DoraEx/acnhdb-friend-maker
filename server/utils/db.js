@@ -1,23 +1,25 @@
 const mongodb = require('mongodb');
 let MongoClient = mongodb.MongoClient;
 
-const url = "mongodb://localhost:27017";
-var _db;
-class MongoConnection {
+class Connection {
+    static async connectToMongo() {
+        let client = await MongoClient.connect(this.url, this.options)
+        this.db = client.db('acnhdb')
+    }
 
-}
-function connectToServer( callback ) {
-    MongoClient.connect(url, function(err, client) {
-        _db = client.db('acnhdb')
-        console.log('created database connection')
-        return callback(err);
-    })
+    static async getDb() {
+        if (!this.db) 
+            await this.connectToMongo()
+        return this.db
+    }
 }
 
-function getDb () {
-    return _db;
+Connection.db = null
+Connection.url = 'mongodb://localhost:27017/acnhdb'
+Connection.options = {
+    bufferMaxEntries:   0,
+    useNewUrlParser:    true,
+    useUnifiedTopology: true,
 }
-module.exports = {
-    connectToServer,
-    getDb
-}
+
+module.exports = { Connection }

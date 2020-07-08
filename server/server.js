@@ -1,13 +1,11 @@
 const express = require('express');
-const mongoUtil = require('./utils/db');
+const { Connection } = require('./utils/db');
 
 const app = express();
 
 
 // start connection
-mongoUtil.connectToServer(function(err, client){
-    if(err) {console.log(err)}
-})
+Connection.connectToMongo()
 
 // add routes
 app.use(require('./routes'));

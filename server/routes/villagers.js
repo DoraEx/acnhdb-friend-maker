@@ -1,12 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const dbUtil = require('../utils/db');
-const db = dbUtil.getDb();
-console.log('here')
-router.get('/', (req, res) => {
-    let villagers = db.collection.villagers.find({})
-    console.log(villagers)
-    res.json(['the list of all villagers'])
+const { Connection }= require('../utils/db');
+
+//TODO move to models
+router.get('/', async (req, res) => {
+    let db = await Connection.getDb()
+    let results = db.collection('villagers').find({}) 
+    let villagers = await results.toArray()
+    res.json(villagers)
 })
 
 router.get('/search', (req, res) => {

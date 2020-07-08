@@ -97,7 +97,7 @@ def extract_variations(sheet, properties):
 def extract(sheet, properties):
     documents = []
     rows = converters.convert_rows(sheet.get_rows(), properties)
-    for row in rows:
+    for row in rows[1:]:
         document = {}
         for prop in properties:
             if prop == 'unique_entry_id':
