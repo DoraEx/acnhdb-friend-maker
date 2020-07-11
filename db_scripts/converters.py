@@ -24,10 +24,10 @@ def convert_rows(rows, properties):
         row_dict = {}
         for i in range(0, len(properties)):
             key = properties[i]
-            if key not in ['favorite_song', 'favorite_saying']:
+            if key not in ['favorite_song', 'favorite_saying', 'source', 'source_notes']:
                 value = convert_values(row[i].value)
             else:
-                value = row[i]
+                value = row[i].value
             row_dict[key] = value
         converted_rows.append(row_dict)
     return converted_rows
