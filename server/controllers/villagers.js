@@ -57,7 +57,7 @@ const validateStringParam = (input) => {
     if(!input) return;
     if (typeof input == 'object') {
         if(input.length == 0 ) throw `Invalid Value ${object}: Params not provided`
-        input.forEach( i => i = validateStringValue(i));
+        input = input.map(i =>  validateStringValue(i));
         return input;
     } else {
         return validateStringValue(input);
@@ -67,7 +67,7 @@ const validateStringParam = (input) => {
 const validateStringValue = (input) => {
     if(typeof input !== 'string') throw `Invalid Value [${input}]: Value must be a string`;
     if(input.length > 30) throw `Invalid Value [${input}]: Value must not exceed 30 characters`;
-    return input.trim();
+    return input.trim().toLowerCase();
 }
 // Validate the string or array of strings
 const validateNumber = (input) => {
