@@ -8,7 +8,8 @@ const get = async (req, res) => {
             const villagers = await villagerService.searchByParameters(params)
             res.json(villagers)
         } catch (error) {
-            res.status(400).send(error)
+            
+             error ? res.status(400).send(error) : res.status(400).send('There was an unknown error');
         }
     } else {
         const villagers = await villagerService.getAll()
@@ -32,11 +33,11 @@ const hasParams = (obj) => {
 }
 
 const extractValidParams = (params) => {
-    const name = validateString(params.name)
-    const species = validateString(params.species);
-    const gender = validateString(params.gender);
-    const personality = validateString(params.personality);
-    const color = validateString(params.color);
+    const name = validateStringParam(params.name)
+    const species = validateStringParam(params.species);
+    const gender = validateStringParam(params.gender);
+    const personality = validateStringParam(params.personality);
+    const color = validateStringParam(params.color);
     const birth_month = validateNumber(params.birth_month);
     const birth_day = validateNumber(params.birth_day);
     
@@ -51,14 +52,37 @@ const extractValidParams = (params) => {
     return validParams;
 }
 
-const validateString = (input) => {
+// Validate the string or array of strings
+const validateStringParam = (input) => {
     if(!input) return;
+    if (typeof input == 'object') {
+        if(input.length == 0 ) throw `Invalid Value ${object}: Params not provided`
+        input.forEach( i => i = validateStringValue(i));
+        return input;
+    } else {
+        return validateStringValue(input);
+    }
+}
+// Validate a single string
+const validateStringValue = (input) => {
     if(typeof input !== 'string') throw `Invalid Value [${input}]: Value must be a string`;
     if(input.length > 30) throw `Invalid Value [${input}]: Value must not exceed 30 characters`;
     return input.trim();
 }
+// Validate the string or array of strings
 const validateNumber = (input) => {
     if(!input) return;
+    if (typeof input == 'object') {
+        if(input.length == 0 ) throw `Invalid Value ${object}: Params not provided`
+        input.forEach( i => i = validateNumberValue(i));
+        return input;
+    } else {
+        return validateNumberValue(input);
+    }
+    
+}
+// Validate a single number
+const validateNumberValue = (input) => {
     if(Number(input) === NaN) throw `Invalid Value [${input}]: Value must be a number`;   
     if(input > 31 || input < 1) throw `Invalid Value [${input}]: Value must be between 1 and 31`;
     return Number(input).valueOf();
