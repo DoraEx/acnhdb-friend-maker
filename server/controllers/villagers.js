@@ -46,9 +46,9 @@ const extractValidParams = (params) => {
             delete validParams[key];
     }
     if(Object.keys(validParams).length == 0) {
-        throw 'There are no valid parameters'
+        throw 'There are no valid parameters';
     }
-    return validParams
+    return validParams;
 }
 
 const validateString = (input) => {
