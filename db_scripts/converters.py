@@ -9,13 +9,13 @@ def convert_values(value):
         elif value.find(';') != -1:
             return convert_themes(value)
         else:
-            return value
+            return value.lower()
     elif type(value) == float:
         return str(int(value))
 
 def convert_themes(value):
     values = value.split(';')
-    values = [v.strip() for v in values]
+    values = [v.strip().lower() for v in values]
     return values
 
 def convert_rows(rows, properties):
@@ -24,7 +24,10 @@ def convert_rows(rows, properties):
         row_dict = {}
         for i in range(0, len(properties)):
             key = properties[i]
-            value =convert_values(row[i].value)
+            if key not in ['favorite_song', 'favorite_saying']:
+                value = convert_values(row[i].value)
+            else:
+                value = row[i]
             row_dict[key] = value
         converted_rows.append(row_dict)
     return converted_rows
