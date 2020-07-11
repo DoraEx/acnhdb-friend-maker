@@ -11,9 +11,13 @@ const getById = async (id) => {
 const searchByParameters =  async (params) => {
     return await villagerData.searchByParameters(params)
 }
+const getSearchParameters = async () => {
+    return await villagerData.getSearchParameters();
+}
 
 module.exports = {
     getAll,
     getById,
-    searchByParameters
+    searchByParameters,
+    getSearchParameters
 }

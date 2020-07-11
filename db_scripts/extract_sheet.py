@@ -18,8 +18,12 @@ def get_column_names(sheet):
     col_names = []
     for col_idx in range(0, sheet.ncols):
         name = str(sheet.cell(0, col_idx).value)
-        name = convert_name_to_prop(name)
-        col_names.append(name)
+        if name == 'birthday' :
+            col_names.append('birth_month')
+            col_names.append('birth_day')
+        else:
+            name = convert_name_to_prop(name)
+            col_names.append(name)
     return col_names
 
 def convert_name_to_prop(name):
@@ -102,6 +106,10 @@ def extract(sheet, properties):
         for prop in properties:
             if prop == 'unique_entry_id':
                 document['_id'] = row[prop]
+            elif prop == 'birthday':
+                (month, day) = row[prop].split('/')
+                document['birth_month'] = month
+                document['birth_day'] = day
             else:
                 document[prop] = row[prop]
         documents.append(document)
