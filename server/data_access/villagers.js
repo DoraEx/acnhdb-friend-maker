@@ -1,6 +1,4 @@
 const { Connection }= require('../utils/db');
-const { param } = require('../routes');
-
 
 const getAll = async () => {
     const db = await Connection.getDb()

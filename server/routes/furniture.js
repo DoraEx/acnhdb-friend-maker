@@ -1,16 +1,9 @@
 const express = require('express');
+const furniture = require('../controllers/furniture');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.json(['the list of all furniture']);
-});
+router.get('/', furniture.get);
+// router.get('/parameters', (req, res) => res.json(['the list of search parameters and values']))
+router.get('/:category', furniture.getByCategory);
 
-router.get('/search', (req, res) => {
-    // search by name, category color
-    res.json(['you searched for ' + req.query.name]);
-});
-
-router.get('/:name', (req, res) => {
-    res.json(['you sent the id ' + req.params.name]);
-});
 module.exports = router;
