@@ -12,7 +12,7 @@ variant_properties = [
     'color_2',
     'filename',
     'variant_id',
-    'unique_id',
+    'unique_entry_id',
 ]
 def get_column_names(sheet):
     col_names = []
@@ -59,18 +59,18 @@ def create_documents(groups, properties):
         else:
             sample_rows = groups[key]
             break
-    variant_properties = []
+    sheet_variant_properties = []
     group_properties = []
     for prop in properties:
         if prop in variant_properties:
-            variant_properties.append(prop)
+            sheet_variant_properties.append(prop)
         else:
             values = [row[prop] for row in sample_rows]
             has_diff= [True for value in values[1:] if value != values[0]]
             if len(has_diff) == 0:
                 group_properties.append(prop)
             else:
-                variant_properties.append(prop)
+                sheet_variant_properties.append(prop)
 
     for key in groups:
         rows = groups[key]
@@ -81,7 +81,7 @@ def create_documents(groups, properties):
         
         for row in rows:
             variant = {}
-            for prop in variant_properties:
+            for prop in sheet_variant_properties:
                 variant[prop] = row[prop]
             document['variations'].append(variant)
         documents.append(document)
