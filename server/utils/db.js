@@ -1,5 +1,7 @@
 const mongodb = require('mongodb');
-let MongoClient = mongodb.MongoClient;
+const MongoClient = mongodb.MongoClient;
+const ObjectId = mongodb.ObjectID;
+
 
 class Connection {
     static async connectToMongo() {
@@ -11,6 +13,14 @@ class Connection {
         if (!this.db) 
             await this.connectToMongo()
         return this.db
+    }
+    
+    static toObjectId(id) {
+        return new ObjectId(id);
+    }
+
+    static isValidId(id) {
+        return ObjectId.isValid(id)
     }
 }
 

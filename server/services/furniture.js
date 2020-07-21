@@ -7,7 +7,17 @@ const getByCategory = async(category) => {
     return await furnitureData.getAllByCategory(category);
 }
 
+const getById = async(id) => {
+    return await furnitureData.getById(id);
+}
+
+const searchByParameters = async (category, params) => {
+    return await furnitureData.searchByParameters(category, params);
+}
+
 module.exports = {
     getAll,
-    getByCategory
+    getByCategory,
+    getById,
+    searchByParameters
 }

@@ -1,4 +1,6 @@
-const { Connection }= require('../utils/db');
+const { Connection } = require('../utils/db');
+const ServiceUtils = require('./utils');
+
 const getAll = async () => {
     const db = await Connection.getDb();
     const results = db.collection('furniture').find({}) ;
@@ -14,7 +16,27 @@ const getAllByCategory = async (category) => {
     return furniture;
 }
 
+const getById = async (id) => {
+    const db = await Connection.getDb();
+    const query = {
+        '_id': Connection.toObjectId(id)
+    }
+    const furniture = await db.collection('furniture').findOne(query);
+    return furniture;
+}
+
+const searchByParameters = async (category, params) => {
+    const db = await Connection.getDb();
+    const conditions = ServiceUtils.getConditions(params);
+    category ? conditions.push({'category': category}) : false;
+    const results = db.collection('furniture').find({$and : conditions});
+    const furniture = await results.toArray();
+    return furniture;
+}
+
 module.exports = {
     getAll, 
-    getAllByCategory
+    getAllByCategory,
+    getById,
+    searchByParameters,
 }
